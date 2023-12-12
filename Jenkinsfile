@@ -20,9 +20,9 @@ pipeline {
                     // Your Docker image should be pushed to a registry accessible by the Docker host
                     // docker.image('first_app').pull()
                     // docker.image('first_app').run()
-                    docker build -t "dhanaboi/first_app:firstimage" -f Dockerfile .
+                    docker build -t dhanaboi/first_app:firstimage -f Dockerfile .
                     docker login -u "dhanaboi" -p "dokerPassUser" docker.io
-                    docker push "dhanaboi/first_app:firstimage"
+                    docker push dhanaboi/first_app:firstimage
                 }
             }
         }
