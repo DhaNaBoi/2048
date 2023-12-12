@@ -21,7 +21,7 @@ pipeline {
                     // docker.image('first_app').pull()
                     // docker.image('first_app').run()
                     docker build -t dhanaboi/first_app:latest -f Dockerfile .
-                    docker login -u "dhanaboi" -p "dockerPassUser" docker.io
+                    docker login -u "dhanaboi" -p "dokerPassUser" docker.io
                     docker push dhanaboi/first_app:latest
                 }
             }
