@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define environment variables if needed
         DOCKER_REGISTRY = "docker.io"
-        DOCKER_REPO = "dhanaboi/first-app"
+        DOCKER_REPO = "dhanaboi/first_app"
         DOCKER_IMAGE_TAG = "latest"
     }
 
