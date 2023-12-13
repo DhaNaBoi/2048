@@ -1,30 +1,48 @@
 pipeline {
-    agent {
-        docker {
-            // Specify the label associated with the Docker agent in Jenkins configuration
-            label 'docker-agent'
-            reuseNode true
-        }
+    agent any
+
+    environment {
+        // Define environment variables if needed
+        DOCKER_REGISTRY = "docker.io"
+        DOCKER_REPO = "dhanaboi/first-app"
+        DOCKER_IMAGE_TAG = "latest"
     }
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building the JavaScript application...'
+                // Checkout your source code from version control (e.g., Git)
+                checkout scm
             }
         }
 
-        stage('Deploy') {
+        stage('Build Docker Image') {
             steps {
+                // Build the Docker image
                 script {
-                    // Your Docker image should be pushed to a registry accessible by the Docker host
-                    // docker.image('first_app').pull()
-                    // docker.image('first_app').run()
-                    docker build -t dhanaboi/first_app:firstimage -f Dockerfile .
-                    docker login -u "dhanaboi" -p "dokerPassUser" docker.io
-                    docker push dhanaboi/first_app:firstimage
+                    docker.build("${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_IMAGE_TAG}")
                 }
             }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // Push the Docker image to the registry
+                script {
+                    docker.withRegistry("${DOCKER_REGISTRY}", 'dokerPassUser') {
+                        docker.image("${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and push successful!'
+        }
+        failure {
+            echo 'Build or push failed!'
         }
     }
 }
