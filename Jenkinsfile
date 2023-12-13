@@ -29,7 +29,7 @@ pipeline {
             steps {
                 // Push the Docker image to the registry
                 script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", 'dokerPassUser') {
+                    docker.withRegistry("${DOCKER_REGISTRY}", dokerPassUser) {
                         docker.image("${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_IMAGE_TAG}").push()
                     }
                 }
